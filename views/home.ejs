@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome to Home Page</h1>
+    <form id="messageForm" enctype="multipart/form-data" method="post">
+        <input type="text" name="message" placeholder="Enter message">
+        <input type="text" name="name">
+        <input type="file" name="myFile"><br><br>
+        <button type="submit">Send Message to Demo Page</button>
+    </form>
+
+    <script src="socket/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        document.getElementById('messageForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const message = formData.get('message');
+            const nm = formData.get('name');
+            const val = document.getElementsByName('myFile')[0].value.split('\\');
+            // console.log();
+            socket.emit('message', {message, nm, fileName: val[val.length-1]}); 
+        })
+    </script>
+</body>
+</html> 
